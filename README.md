@@ -30,8 +30,6 @@ This script was made to keep these features while using new snapshot code.
 
 > wget https://raw.githubusercontent.com/Gr33nDrag0n69/lisk-gdsnap/master/gdsnap.sh -O ~/lisk-test/gdsnap.sh && chmod 700 ~/lisk-test/gdsnap.sh
 
-## Cronjob Examples
-
 ## Usage
 
 ```
@@ -41,6 +39,8 @@ This script was made to keep these features while using new snapshot code.
  -d <days to keep>         -- Days to keep GZ files. Default is 0. (Disabled)
  -g                        -- Make a copy of backup file named blockchain.db.gz.
 ```
+
+## Cronjob Examples
 
 ### Default (MainNet)
 
