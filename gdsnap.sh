@@ -54,14 +54,14 @@ LOCK_FILE="$LOCK_LOCATION/snapshot.lock"
 
 parse_option() {
 	OPTIND=1
-	while getopts :b:d:g OPT; do
+	while getopts :o:d:g OPT; do
 		case "$OPT" in
-			b)
+			o)
 				mkdir -p "$OPTARG" &> /dev/null
 				if [ -d "$OPTARG" ]; then
 					OUTPUT_DIRECTORY="$OPTARG"
 				else
-					echo "$(now) Backup location invalid. Please verify the folder exists and try again."
+					echo "$(now) Output directory is invalid."
 					exit 1
 				fi ;;
 
@@ -86,10 +86,10 @@ parse_option() {
 }
 
 usage() {
-	echo -e "\\nUsage: $0 [-b <backup directory>] [-d <days to keep>] [-g]\\n"
-	echo " -b <backup directory>     -- Backup directory to output into. Default is ./backups"
-	echo " -d <days to keep>         -- Days to keep backups. Default is 7"
-	echo " -g                        -- Make a copy of backup file named blockchain.db.gz"
+	echo -e "\\nUsage: $0 [-o <output directory>] [-d <days to keep>] [-g]\\n"
+	echo " -o <output directory>     -- Output directory. Default is ./backups"
+	echo " -d <days to keep>         -- Days to keep GZ files. Default is 0. (Disabled)"
+	echo " -g                        -- Make a copy of backup file named blockchain.db.gz."
 	echo ''
 }
 
