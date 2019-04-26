@@ -1,28 +1,53 @@
 # lisk-gdsnap
 
-A custom version of the lisk_snapshot.sh script.
+A custom version of the `lisk_snapshot.sh` script.
 
-The legacy version of lisk_snapshot.sh was written by Isabella and Me and had a lot of cool parameters:
-* Custom output directory parameter. (Replaced by a env. variable)
-* Auto-cleanup parameter. (Removed)
-* Generic copy parameter. (Removed)
+The legacy version of `lisk_snapshot.sh` (v0.6.x to v1.5.1) was written by Isabella and Me in early 2017 and had some extra parameters:
 
-They were all ditched by Lisk HQ on their new "pgdump only" version.
+* Internal lock system to prevent multiple instances running at same time.
+* Database forced VACUUM prior to dumping.
+* Custom output directory parameter.
+* Auto-cleanup parameter.
+* Generic copy parameter.
+* and more...
 
-I rewrote from scratch a merge of both scripts functionnality.
-The parameters are all the same that were uses on the legacy script.
+They were all removed by Lisk HQ starting with v1.6.0 of lisk-node.
 
-### Lisk HQ / LightCurve
+This script was made to keep these features while using new snapshot code.
 
-Feel free to replace the new bundled script by this one. ;)
+## Requirements
 
-### Requirements
-
-* Must be run with the same user lisk-node is running
+* Must be run with the same user lisk-node is running.
 * If using custom output directory, make sure the user running the script have write permissions on target directory.
 
-### Usage
+## Install
 
-### Cronjob
+#### MainNet
 
+> wget https://raw.githubusercontent.com/Gr33nDrag0n69/lisk-gdsnap/master/gdsnap.sh -O ~/lisk-main/gdsnap.sh && chmod 700 ~/lisk-main/gdsnap.sh
 
+#### Testnet
+
+> wget https://raw.githubusercontent.com/Gr33nDrag0n69/lisk-gdsnap/master/gdsnap.sh -O ~/lisk-test/gdsnap.sh && chmod 700 ~/lisk-test/gdsnap.sh
+
+## Cronjob Examples
+
+### Default (MainNet)
+
+> 30 */6 * * * /bin/bash ~/lisk-main/gdsnap.sh > /dev/null 2>&1
+
+* Run every 6 hours starting at 00:30
+* Use default output directory: ~/lisk-main/backups/
+* No file cleanup.
+* No generic copy.
+* No log file.
+
+### snapshot.lisknode.io (MainNet)
+
+> 0 */3 * * * /bin/bash ~/lisk-main/gdsnap.sh -b /opt/nginx/snapshot.lisknode.io -d 5 -g > ~/lisk-main/logs/gdsnap.log 2>&1
+
+* Run every 3 hours starting at 00:00
+* Use custom output directory
+* Delete *.gz files older than 5 days
+* Create/Overwrite a copy of the latest snapshot to blockchain.db.gz 
+* Output logs to ~/lisk-main/logs/gdsnap.log
