@@ -155,6 +155,7 @@ OUTPUT_FILE="${OUTPUT_DIRECTORY}/${SOURCE_DATABASE}_backup-${HEIGHT}.gz"
 TEMP_FILE=$( mktemp --tmpdir="$OUTPUT_DIRECTORY" )
 pg_dump --no-owner lisk_snapshot | gzip -9 >"$TEMP_FILE"
 mv -f "$TEMP_FILE" "$OUTPUT_FILE"
+chmod 644 "$GENERIC_FILE"
 
 ###  Generic Copy
 
@@ -162,6 +163,7 @@ if [ "$GENERIC_COPY" = true ] 2> /dev/null; then
 	echo -e "\\n$(now) Overwriting Generic Copy (blockchain.db.gz)"
 	GENERIC_FILE="${OUTPUT_DIRECTORY}/blockchain.db.gz"
 	cp -f "$OUTPUT_FILE" "$GENERIC_FILE"
+	chmod 644 "$OUTPUT_FILE"
 fi
 
 ### Start Software
