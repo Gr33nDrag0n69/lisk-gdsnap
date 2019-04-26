@@ -32,6 +32,16 @@ This script was made to keep these features while using new snapshot code.
 
 ## Cronjob Examples
 
+## Usage
+
+```
+./gdsnap.sh [-o <output directory>] [-d <days to keep>] [-g]
+
+ -o <output directory>     -- Output directory. Default is ./backups
+ -d <days to keep>         -- Days to keep GZ files. Default is 0. (Disabled)
+ -g                        -- Make a copy of backup file named blockchain.db.gz.
+```
+
 ### Default (MainNet)
 
 > 30 */6 * * * /bin/bash ~/lisk-main/gdsnap.sh > /dev/null 2>&1
@@ -44,10 +54,20 @@ This script was made to keep these features while using new snapshot code.
 
 ### snapshot.lisknode.io (MainNet)
 
-> 0 */3 * * * /bin/bash ~/lisk-main/gdsnap.sh -b /opt/nginx/snapshot.lisknode.io -d 5 -g > ~/lisk-main/logs/gdsnap.log 2>&1
+> 0 */3 * * * /bin/bash ~/lisk-main/gdsnap.sh -o /opt/nginx/snapshot.lisknode.io -d 5 -g > ~/lisk-main/logs/gdsnap.log 2>&1
 
 * Run every 3 hours starting at 00:00
 * Use custom output directory
 * Delete *.gz files older than 5 days
 * Create/Overwrite a copy of the latest snapshot to blockchain.db.gz 
 * Output logs to ~/lisk-main/logs/gdsnap.log
+
+### testnet-snapshot.lisknode.io (TestNet)
+
+> 0 */4 * * * /bin/bash ~/lisk-test/gdsnap.sh -o /opt/nginx/testnet-snapshot.lisknode.io -d 3 -g > ~/lisk-test/logs/gdsnap.log 2>&1
+
+* Run every 4 hours starting at 00:00
+* Use custom output directory
+* Delete *.gz files older than 3 days
+* Create/Overwrite a copy of the latest snapshot to blockchain.db.gz 
+* Output logs to ~/lisk-test/logs/gdsnap.log
