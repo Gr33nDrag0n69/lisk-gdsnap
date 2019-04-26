@@ -109,7 +109,7 @@ if [ ! -f "$LOCK_FILE" ]; then
 	echo "√ Previous snapshot is not runnning. Proceeding."
 else
 	if [ "$( stat --format=%Y "$LOG_LOCATION" )" -le $(( $(date +%s) - ( STALL_THRESHOLD * 60 ) )) ]; then
-		echo "√ Previous snapshot is stalled for $STALL_THRESHOLD_PREVIOUS minutes, terminating and continuing with a new snapshot."
+		echo "√ Previous snapshot is stalled for $STALL_THRESHOLD minutes, terminating and continuing with a new snapshot."
 		bash lisk.sh stop_node >/dev/null
 		dropdb --if-exists lisk_snapshot 2> /dev/null
 		bash lisk.sh start_node >/dev/null
