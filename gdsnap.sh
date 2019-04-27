@@ -108,11 +108,12 @@ echo -e "\\n$(now) Checking for existing snapshot operation"
 if [ ! -f "$LOCK_FILE" ]; then
 	echo "√ Previous snapshot is not runnning. Proceeding."
 else
-	if [ "$( stat --format=%Y "$LOG_LOCATION" )" -le $(( $(date +%s) - ( STALL_THRESHOLD * 60 ) )) ]; then
+	if [ "$( stat --format=%Y "$LOCK_FILE" )" -le $(( $(date +%s) - ( STALL_THRESHOLD * 60 ) )) ]; then
 		echo "√ Previous snapshot is stalled for $STALL_THRESHOLD minutes, terminating and continuing with a new snapshot."
 		bash lisk.sh stop_node >/dev/null
 		dropdb --if-exists lisk_snapshot 2> /dev/null
-		bash lisk.sh start_node >/dev/null
+		bash lisk.sh stop >/dev/null
+		bash lisk.sh start >/dev/null
 		rm -f "$LOCK_FILE" &> /dev/null
 	else
 		echo "X Previous snapshot is in progress, aborting."
@@ -126,7 +127,7 @@ echo -e "\\n$(now) Creating Lock File"
 mkdir -p "$LOCK_LOCATION" &> /dev/null
 touch "$LOCK_FILE" &> /dev/null
 
-### Stop Software
+### Stop Software (Node Only, Keep PostgreSQL Up)
 
 echo -e "\\n$(now) Stopping Lisk Node & Removing 'lisk_snapshot' DB copy."
 bash lisk.sh stop_node >/dev/null
