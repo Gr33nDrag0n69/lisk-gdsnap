@@ -177,7 +177,7 @@ bash lisk.sh start_node >/dev/null
 if [ "$DAYS_TO_KEEP" -gt 0 ]; then
 	echo -e "\\n$(now) Deleting snapshots older than $DAYS_TO_KEEP day(s) in $OUTPUT_DIRECTORY"
 	mkdir -p "$OUTPUT_DIRECTORY" &> /dev/null
-	find "$OUTPUT_DIRECTORY" -name "${SOURCE_DATABASE}*.gz" -mtime +"$(( DAYS_TO_KEEP - 1 ))" -exec rm {} \;
+	find "$OUTPUT_DIRECTORY" -name "${SOURCE_DATABASE}_backup-*.gz" -mtime +"$(( DAYS_TO_KEEP - 1 ))" -exec rm {} \;
 fi
 
 ### Remove Lock File
