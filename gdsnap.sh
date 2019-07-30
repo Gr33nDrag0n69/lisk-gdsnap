@@ -1,6 +1,8 @@
 #!/bin/bash -e
 #######################################################################################################################
 #
+# Compatible/Tested with v2.0.0 ONLY
+#
 # LiskHQ/lisk-scripts/lisk_snaphot.sh
 # Copyright (C) 2017 Lisk Foundation
 #
@@ -30,8 +32,6 @@ IFS=$'\n\t'
 cd "$(cd -P -- "$(dirname -- "$0")" && pwd -P)" || exit 2
 # shellcheck source=env.sh
 . "$(pwd)/env.sh"
-# shellcheck source=shared.sh
-. "$(pwd)/shared.sh"
 
 ### Default Configuration #############################################################################################
 
@@ -43,7 +43,7 @@ GENERIC_COPY=false
 
 # Not configurable via parameter(s).
 
-SOURCE_DATABASE=$( get_config '.db.database' )
+SOURCE_DATABASE=$( node scripts/generate_config.js |jq --raw-output '.components.storage.database' )
 
 STALL_THRESHOLD="15"
 
@@ -146,7 +146,7 @@ createdb --template="$SOURCE_DATABASE" lisk_snapshot
 ### Removing peers & memdata from DB copy
 
 echo -e "\\n$(now) Removing peers & memdata from DB 'lisk_snapshot'"
-psql --dbname=lisk_snapshot --command='TRUNCATE peers, mem_accounts2u_delegates, mem_accounts2u_multisignatures;' >/dev/null
+psql --dbname=lisk_snapshot --command='TRUNCATE peers;' >/dev/null
 
 ### Dump 'lisk_snapshot' DB
 

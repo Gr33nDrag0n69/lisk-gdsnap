@@ -15,6 +15,11 @@ They were all removed by Lisk HQ starting with v1.6.0 of lisk-node.
 
 This script was made to keep these features while using new snapshot code.
 
+First version (2019-05-04) was made to be compatible with v1.6.0.
+
+Latest version (2019-07-30) was modified to be compatible with v2.0.0.
+
+
 ## Requirements
 
 * Must be run with the same user lisk-node is running.
