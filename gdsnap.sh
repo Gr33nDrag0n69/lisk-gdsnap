@@ -145,7 +145,7 @@ createdb --template="$SOURCE_DATABASE" lisk_snapshot
 
 ### Removing peers & memdata from DB copy
 
-echo -e "\\n$(now) Removing peers & memdata from DB 'lisk_snapshot'"
+echo -e "\\n$(now) Removing peers data from DB 'lisk_snapshot'"
 psql --dbname=lisk_snapshot --command='TRUNCATE peers;' >/dev/null
 
 ### Dump 'lisk_snapshot' DB
